@@ -4,12 +4,11 @@ import io.github.racoondog.decentralizedevents.listeners.Listener;
 
 /**
  * @param <T> Object type supplied within the listener.
- * @param <L> Listener type.
  */
-public interface Event<T, L extends Listener<T>> {
+public interface Event<T> {
     void call(T event);
 
-    void subscribe(L listener);
+    void subscribe(Listener<T> listener);
 
-    void unsubscribe(L listener);
+    void unsubscribe(Listener<T> listener);
 }

@@ -8,9 +8,8 @@ import java.util.Arrays;
 /**
  * Thread-unsafe {@link Event} implementation, array sized logarithmically to limit resizes.
  * @param <T> Object type supplied within the listener.
- * @param <L> Listener type.
  */
-public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Event<T, L> {
+public abstract class LogSizeArrayEvent<T> implements Event<T> {
     @SuppressWarnings("unchecked")
     private Listener<T>[] listeners = new Listener[0];
     private int size = 0;
@@ -23,7 +22,7 @@ public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Eve
     }
 
     @Override
-    public void subscribe(L listener) {
+    public void subscribe(Listener<T> listener) {
         int len = listeners.length;
 
         if (size >= len) {
@@ -35,7 +34,7 @@ public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Eve
     }
 
     @Override
-    public void unsubscribe(L listener) {
+    public void unsubscribe(Listener<T> listener) {
         int index = ArrayUtils.search(listeners, size, listener);
         if (index == -1) return;
 
