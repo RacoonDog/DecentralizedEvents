@@ -3,6 +3,11 @@ package io.github.racoondog.decentralizedevents.events;
 import io.github.racoondog.decentralizedevents.ArrayUtils;
 import io.github.racoondog.decentralizedevents.listeners.Listener;
 
+/**
+ * Thread-safe {@link Event} implementation, array recreated every write.
+ * @param <T> Object type supplied within the listener.
+ * @param <L> Listener type.
+ */
 @SuppressWarnings("unchecked")
 public abstract class CopyOnWriteEvent<T, L extends Listener<T>> implements Event<T, L> {
     private Listener<T>[] listeners = new Listener[0];

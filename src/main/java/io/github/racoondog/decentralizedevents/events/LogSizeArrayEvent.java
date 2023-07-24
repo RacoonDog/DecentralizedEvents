@@ -5,6 +5,11 @@ import io.github.racoondog.decentralizedevents.listeners.Listener;
 
 import java.util.Arrays;
 
+/**
+ * Thread-unsafe {@link Event} implementation, array sized logarithmically to limit resizes.
+ * @param <T> Object type supplied within the listener.
+ * @param <L> Listener type.
+ */
 public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Event<T, L> {
     @SuppressWarnings("unchecked")
     private Listener<T>[] listeners = new Listener[0];
