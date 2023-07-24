@@ -1,6 +1,7 @@
 package io.github.racoondog.decentralizedevents;
 
 import io.github.racoondog.decentralizedevents.events.Event;
+import io.github.racoondog.decentralizedevents.exceptions.EventTypeNotRegisteredException;
 import io.github.racoondog.decentralizedevents.listeners.Listener;
 
 import java.util.Map;
@@ -50,6 +51,8 @@ public class EventBus {
 
     @SuppressWarnings("unchecked")
     private <E extends Event<?, ?>> E get(Class<E> eventClass) {
-        return (E) eventMap.get(eventClass);
+        E event = (E) eventMap.get(eventClass);
+        if (event == null) throw new EventTypeNotRegisteredException(eventClass);
+        return event;
     }
 }
