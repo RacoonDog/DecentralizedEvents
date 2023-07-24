@@ -1,5 +1,6 @@
 package io.github.racoondog.decentralizedevents.events;
 
+import io.github.racoondog.decentralizedevents.ArrayUtils;
 import io.github.racoondog.decentralizedevents.listeners.Listener;
 
 import java.util.Arrays;
@@ -24,13 +25,7 @@ public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Eve
 
     @Override
     public void unsubscribe(L listener) {
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (listeners[i] == listener) {
-                index = i;
-                break;
-            }
-        }
+        int index = ArrayUtils.search(listeners, size, listener);
         if (index == -1) return;
 
         int numMoved = size - index - 1;

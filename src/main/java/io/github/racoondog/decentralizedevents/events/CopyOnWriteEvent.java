@@ -1,5 +1,6 @@
 package io.github.racoondog.decentralizedevents.events;
 
+import io.github.racoondog.decentralizedevents.ArrayUtils;
 import io.github.racoondog.decentralizedevents.listeners.Listener;
 
 @SuppressWarnings("unchecked")
@@ -23,14 +24,9 @@ public abstract class CopyOnWriteEvent<T, L extends Listener<T>> implements Even
 
     @Override
     public void unsubscribe(L listener) {
-        int index = -1;
-        for (int i = 0; i < listeners.length; i++) {
-            if (listeners[i] == listener) {
-                index = i;
-                break;
-            }
-        }
+        int index = ArrayUtils.search(listeners, listener);
         if (index == -1) return;
+
         int newLen = listeners.length - 1;
         Listener<T>[] newListeners = new Listener[newLen];
         System.arraycopy(listeners, 0, newListeners, 0, index);
