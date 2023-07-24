@@ -7,11 +7,9 @@ import io.github.racoondog.decentralizedevents.listeners.Listener;
 public abstract class CopyOnWriteEvent<T, L extends Listener<T>> implements Event<T, L> {
     private Listener<T>[] listeners = new Listener[0];
 
-    protected CopyOnWriteEvent() {}
-
     @Override
-    public Listener<T>[] getListeners() {
-        return listeners;
+    public void call(T event) {
+        for (Listener<T> listener : listeners) listener.listen(event);
     }
 
     @Override
@@ -29,7 +27,7 @@ public abstract class CopyOnWriteEvent<T, L extends Listener<T>> implements Even
 
         int newLen = listeners.length - 1;
         Listener<T>[] newListeners = new Listener[newLen];
-        System.arraycopy(listeners, 0, newListeners, 0, index);
+        if (index > 0) System.arraycopy(listeners, 0, newListeners, 0, index);
         System.arraycopy(listeners, index + 1, newListeners, index, newLen - index);
         listeners = newListeners;
     }

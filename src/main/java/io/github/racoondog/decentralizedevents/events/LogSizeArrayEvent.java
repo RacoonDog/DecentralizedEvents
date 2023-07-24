@@ -10,16 +10,22 @@ public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Eve
     private Listener<T>[] listeners = new Listener[0];
     private int size = 0;
 
-    protected LogSizeArrayEvent() {}
-
     @Override
-    public Listener<T>[] getListeners() {
-        return listeners;
+    public void call(T event) {
+        for (int i = 0; i < size; i++) {
+            listeners[i].listen(event);
+        }
     }
 
     @Override
     public void subscribe(L listener) {
-        growIfNeeded();
+        int len = listeners.length;
+
+        if (size >= len) {
+            len = len == 0 ? 4 : len + (len >> 1);
+            listeners = Arrays.copyOf(listeners, len);
+        }
+
         listeners[size++] = listener;
     }
 
@@ -31,13 +37,5 @@ public abstract class LogSizeArrayEvent<T, L extends Listener<T>> implements Eve
         int numMoved = size - index - 1;
         if (numMoved > 0) System.arraycopy(listeners, index + 1, listeners, index, numMoved);
         listeners[--size] = null;
-    }
-
-    private void growIfNeeded() {
-        int len = listeners.length;
-        if (size >= len) {
-            len = len + (len >> 1);
-            listeners = Arrays.copyOf(listeners, len);
-        }
     }
 }
