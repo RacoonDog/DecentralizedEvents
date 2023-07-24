@@ -18,6 +18,8 @@ public abstract class CopyOnWriteEvent<T> implements Event<T> {
 
     @Override
     public void subscribe(Listener<T> listener) {
+        if (ArrayUtils.contains(listeners, listener)) return;
+
         Listener<T>[] newListeners = new Listener[listeners.length + 1];
         System.arraycopy(listeners, 0, newListeners, 0, listeners.length);
         newListeners[listeners.length] = listener;

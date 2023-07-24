@@ -8,16 +8,15 @@ import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 4, time = 5)
+@Warmup(iterations = 8, time = 5)
 @Measurement(iterations = 4, time = 5)
 public class BenchmarkCaller implements Listener<Blackhole> {
     private static final int ITERATIONS = 100_000;
 
-    private BenchmarkEvent EVENT;
+    private static final BenchmarkEvent EVENT = new BenchmarkEvent();
 
     @Setup
     public void setup() {
-        EVENT = new BenchmarkEvent();
         EVENT.subscribe(this);
     }
 

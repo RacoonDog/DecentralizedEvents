@@ -23,6 +23,8 @@ public abstract class LogSizeArrayEvent<T> implements Event<T> {
 
     @Override
     public void subscribe(Listener<T> listener) {
+        if (ArrayUtils.contains(listeners, size, listener)) return;
+
         int len = listeners.length;
 
         if (size >= len) {
