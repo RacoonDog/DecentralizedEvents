@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'me.champeau.jmh' version '0.7.0'
+}
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = 'DecentralizedEvents'
+group = 'io.github.racoondog.decentralizedevents'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    jmh 'org.openjdk.jmh:jmh-core:1.36'
+    jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
+    jmhAnnotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
+}
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    from('LICENSE') { rename { '${it}_${project.archivesBaseName}' } }
+}
